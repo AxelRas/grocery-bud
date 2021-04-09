@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
+import Items from './components/Items';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: []
+    }
+
+    this.addItem = this.addItem.bind(this);
+  }
+
+  componentDidUpdate() {
+    console.log(this.state.items);
+  }
+
+  addItem(item) {
+    if (this.state.items.includes(item)) {
+      alert('Item already on list.');
+      return;
+    } else if (item === '') {
+      alert('Item can not be an empty string.');
+      return;
+    }
+
+    this.setState({
+      items: [...this.state.items, item]
+    });
+    document.getElementById('input-box').value = '';
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Grocery List</h1>
+        <div className="inputs">
+          <input id="input-box" type='text' placeholder='Item to add'></input>
+          <div onClick={() => this.addItem(document.getElementById('input-box').value)} id="button">+</div>
+        </div>
+
+        <Items data={this.state.items} />
+      </div>
+    );
+  }
 }
 
 export default App;
