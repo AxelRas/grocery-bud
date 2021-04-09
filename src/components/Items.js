@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
+// import $ from 'jquery';
 
 export default class Items extends Component {
 
@@ -10,9 +10,8 @@ export default class Items extends Component {
           <div id={item} key={item} className="item">
             <p>{item}</p>
             <div className="item-actions">
-              <button>Edit</button>
-              {/* Memory leak on remove function */}
-              <button onClick={() => $('#' + item).remove()}>Remove</button>
+              <button id={`${item}-edit-btn`} onClick={() => this.props.editItem(item)}>Edit</button>
+              <button onClick={() => this.props.removeItem(item)}>Remove</button>
             </div>
           </div>
         ))}

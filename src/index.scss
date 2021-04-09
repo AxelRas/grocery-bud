@@ -93,7 +93,7 @@ html {
     margin: 5px 0;
     user-select: none;
     background-color: transparent;
-    color: blanchedalmond;
+    color: wheat;
     font-size: 1.1em;
     cursor: pointer;
     border-radius: 5px;
@@ -111,4 +111,22 @@ html {
   width: 300px;
   // border: 2px solid black;
   margin: 10px;
+}
+
+#clear-btn {
+  margin: 20px;
+  font-size: 1.4em;
+  font-family: 'Josefin Sans', sans-serif;
+  border: none;
+  background-color: transparent;
+  color: rgb(245, 222, 179);
+  cursor: pointer;
+  user-select: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.edit-input:focus {
+  outline: none;
 }

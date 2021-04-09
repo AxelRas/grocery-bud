@@ -145,7 +145,7 @@ html {
       -ms-user-select: none;
           user-select: none;
   background-color: transparent;
-  color: blanchedalmond;
+  color: wheat;
   font-size: 1.1em;
   cursor: pointer;
   border-radius: 5px;
@@ -163,5 +163,27 @@ html {
 .item-container {
   width: 300px;
   margin: 10px;
+}
+
+#clear-btn {
+  margin: 20px;
+  font-size: 1.4em;
+  font-family: 'Josefin Sans', sans-serif;
+  border: none;
+  background-color: transparent;
+  color: wheat;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+#clear-btn:focus {
+  outline: none;
+}
+
+.edit-input:focus {
+  outline: none;
 }
 /*# sourceMappingURL=index.css.map */
