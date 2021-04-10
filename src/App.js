@@ -56,8 +56,14 @@ class App extends Component {
     $(`#${itemId}-edit-input`).remove();
     $(`<p>${newItem}</p>`).insertBefore(`#${itemId} .item-actions`);
 
-    let newItemsList = [...this.state.items].filter(item => item !== itemId);
-    newItemsList.push(newItem);
+    // let newItemsList = [...this.state.items].filter(item => item !== itemId);
+    // newItemsList.push(newItem); // <-- this would mess up the order of the list
+
+    let newItemsList = [];
+
+    for (let i = 0; i < this.state.items.length; i++) {
+      (this.state.items[i] !== itemId) ? newItemsList.push(this.state.items[i]) : newItemsList.push(newItem);
+    }
 
     let newCurrentlyEditing = { ...this.state.currentlyEditing }
     delete newCurrentlyEditing[itemId];
