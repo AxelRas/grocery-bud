@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Items from "./components/Items";
 import $ from "jquery";
 import Modal from "./components/Modal";
+import Backdrop from "./components/Backdrop";
 
 let i = -1;
 
@@ -20,6 +21,17 @@ const errorModal = (props) => {
           okBtn={props.okBtn}
         />,
         document.getElementById("overlay-root")
+      )}
+    </React.Fragment>
+  );
+};
+
+const backdrop = () => {
+  return (
+    <React.Fragment>
+      {ReactDOM.createPortal(
+        <Backdrop />,
+        document.getElementById("backdrop-root")
       )}
     </React.Fragment>
   );
@@ -140,6 +152,7 @@ class App extends Component {
             message: this.state.error.message,
             okBtn: this.dismissModal,
           })}
+        {this.state.error && backdrop()}
         <h1>Grocery List</h1>
         <div className="inputs">
           <input id="input-box" type="text" placeholder="Item to add"></input>
