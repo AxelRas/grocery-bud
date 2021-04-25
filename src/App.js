@@ -51,6 +51,11 @@ class App extends Component {
     this.editItem = this.editItem.bind(this);
     this.confirmEdit = this.confirmEdit.bind(this);
     this.dismissModal = this.dismissModal.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
+  }
+
+  handleEnter(item, itemId) {
+    this.addItem(item, itemId);
   }
 
   dismissModal() {
@@ -145,7 +150,18 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div
+        className="App"
+        onKeyDown={(e) => {
+          e.key === "Enter"
+            ? this.handleEnter(
+                document.getElementById("input-box").value,
+                `item-${newId()}`
+              )
+            : console.log("");
+        }}
+        tabIndex="0"
+      >
         {this.state.error &&
           errorModal({
             title: this.state.error.title,
@@ -157,12 +173,12 @@ class App extends Component {
         <div className="inputs">
           <input id="input-box" type="text" placeholder="Item to add"></input>
           <div
-            onClick={() =>
+            onClick={() => {
               this.addItem(
                 document.getElementById("input-box").value,
                 `item-${newId()}`
-              )
-            }
+              );
+            }}
             id="button"
           >
             +
