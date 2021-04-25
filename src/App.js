@@ -1,6 +1,8 @@
-import { Component } from "react";
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import Items from "./components/Items";
 import $ from "jquery";
+import Modal from "./components/Modal";
 
 let i = -1;
 
@@ -8,31 +10,49 @@ function newId() {
   return ++i;
 }
 
+const errorModal = (props) => {
+  return (
+    <React.Fragment>
+      {ReactDOM.createPortal(
+        <Modal
+          title={props.title}
+          message={props.message}
+          okBtn={props.okBtn}
+        />,
+        document.getElementById("overlay-root")
+      )}
+    </React.Fragment>
+  );
+};
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [],
       currentlyEditing: {},
+      error: "",
     };
 
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.confirmEdit = this.confirmEdit.bind(this);
+    this.dismissModal = this.dismissModal.bind(this);
   }
 
-  componentDidUpdate() {
-    // console.log(this.state.test);
+  dismissModal() {
+    this.setState({ error: "" });
   }
 
   addItem(item, itemId) {
-    if (this.state.items.includes({ id: itemId, text: item })) {
-      alert("Item already on list.");
-      document.getElementById("input-box").value = "";
-      return;
-    } else if (item === "") {
-      alert("Item can not be an empty string.");
+    if (item === "") {
+      this.setState({
+        error: {
+          title: "Invalid input",
+          message: "Input can not be an empty string",
+        },
+      });
       return;
     }
 
@@ -52,14 +72,19 @@ class App extends Component {
 
   confirmEdit(itemId) {
     // return;
-    $(`#${itemId}-edit-btn`).html("Edit");
     let newText = document.getElementById(`${itemId}-edit-input`).value;
 
     if (newText === "") {
-      alert(`Item can't be an empty string.`);
+      this.setState({
+        error: {
+          title: "Invalid input",
+          message: "Input can not be an empty string",
+        },
+      });
       return;
     }
 
+    $(`#${itemId}-edit-btn`).html("Edit");
     $(`#${itemId}-edit-input`).remove();
     $(`<p>${newText}</p>`).insertBefore(`#${itemId} .item-actions`);
 
@@ -109,6 +134,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        {this.state.error &&
+          errorModal({
+            title: this.state.error.title,
+            message: this.state.error.message,
+            okBtn: this.dismissModal,
+          })}
         <h1>Grocery List</h1>
         <div className="inputs">
           <input id="input-box" type="text" placeholder="Item to add"></input>
